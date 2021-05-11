@@ -1,0 +1,29 @@
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1618040070938'); /* IE9 */
+  src: url('iconfont.eot?t=1618040070938#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAOIAAsAAAAAB9gAAAM6AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDHAqDDIJpATYCJAMQCwoABCAFhG0HThvhBhEVnFHIfh7YtpZs8tic7aGRjPT2OXjg86z3kcyv085CQrrrZIUr4JNuEAc87blbm75jqAoZVcmStdNPy8xPIFw+XXXYGQD/c029Wgjmt7O5RLVmPj9aAY0HNKDoIttANucNYxe0xPUQQJBy1EF06dZnCAaN2U0AYs7M6RMxGTO6IVdgENgVYzViDxZGbpdPUewOPi9yaYQBiaUw+w6Y1nUKHTLC2bOVm3IZ4yFIpnMCbBIooA6gQcyodE9CReE6KILqbzTNAINBQkY4w8menUpB6VHUxvKAHPznCRszOwxAExhRkBF2SEjIcEgoyJ4tfYC1NAAGSAOWAKfA+jLT3FUiE5FAOBEvu3rWpefe0xozLhy5+igU859cPzbLP4t0z3jnhEqeH3vqnGvwz6b3X/3275B3/4Z+yBz+PmPklDNerWHnkvdu1xw6/Lxf8+TV3lvMdN8x/Q/M5PvkkQfdIkOGHhyjUbFhQw5455LFhw87JPUtOnT4Yb/Nyzmzdzvxlonys/x56zycVfVl1Vmv2n6rFqscbRarVK5SrFm0shWY8K1efl2n3jdATXiio45+BI2O41q1k8zRaXmZMo3qybNnK9eb+EquX19YyPsl6oWpoNxZd/t7Xv+7b22BL4gL3+KkXj23ld7GFOAy42FjFgCQuq/+qA6EfUT9VBOiSY1yf9x3cP1dj8fH2vw3IQ3A18PLbCjtpuHtSzpLfpOkY57WZKZFa0XuiPVMTT0U3LuRoGWDnxOHBN+n8BaFxCkwXAJBkkZZUBiqoJpWByxCNAEbQ3sIUpvuk0OkswiF0AGgFpsBCBwugyTKPVA4PEM17RtYFCMfbByhIMgwkT5nCMheuPzI2AtOMPzBjbRq2yZ5mHtD8557TssC1gs5Oh/URZWPXXFFnmJA/JhGRINmWuACNsN5JtiYPI5SWJHtUJa66kXFSIvKOTL2ghMw/AE30qq9ypIX3n9D8557bqBU+V/I0dUO1BRUHdCreu1EuZVL4sc0iGhAMy3ABThxtsIEbNWtPI5SYAcEtwMlKqa7qovltcsbrgKCmE/SQgoltLBIlve8utUk8T2OGOMOmYnby9xLeyeuqBQAAA==') format('woff2'),
+  url('iconfont.woff?t=1618040070938') format('woff'),
+  url('iconfont.ttf?t=1618040070938') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1618040070938#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-warning:before {
+  content: "\e96b";
+}
+
+.icon-success:before {
+  content: "\e60c";
+}
+
+.icon-error_Flat_icons:before {
+  content: "\e610";
+}
+
