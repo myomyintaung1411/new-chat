@@ -291,7 +291,8 @@ export default {
 
       myMsg: this.$Global.isMe,
       uploadPhotoUrl:
-        "http://" + window.g.ip + ":" + window.g.imgPort + "/upload",
+        // "http://" + window.g.ip + ":" + window.g.imgPort + "/upload",
+       window.g.ip + "/upload",
       positions: {
         clientX: undefined,
         clientY: undefined,
@@ -310,21 +311,24 @@ export default {
   },
   methods: {
     SaveImage(img) {
-      console.log("image is ", img);
+      // console.log("image is ", img);
 
-      const cut = img.substring(img.lastIndexOf('=')+1)
-      console.log("cut is ***************", cut);
-      this.axios.get(img, {responseType: "blob"}).then((res)=>{
-        console.log(res);
-        var fileUrl = window.URL.createObjectURL(new Blob([res.data]))
-        var fileLink = document.createElement('a')
-        fileLink.href = fileUrl
-        fileLink.setAttribute('download',cut)
-        document.body.appendChild(fileLink)
-        fileLink.click()
-      }).catch((e)=>{
-        console.log(e);
-      })
+      const cut = img.substring(img.lastIndexOf("=") + 1);
+      // console.log("cut is ***************", cut);
+      this.axios
+        .get(img, { responseType: "blob" })
+        .then((res) => {
+          // console.log(res);
+          var fileUrl = window.URL.createObjectURL(new Blob([res.data]));
+          var fileLink = document.createElement("a");
+          fileLink.href = fileUrl;
+          fileLink.setAttribute("download", cut);
+          document.body.appendChild(fileLink);
+          fileLink.click();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
     //copy and paste image and text
     PasteData(event, callback) {
@@ -354,12 +358,13 @@ export default {
       for (var i = 0; i < items.length; i++) {
         if (items[i].type.indexOf("image") == -1) continue;
         var blob = items[i].getAsFile();
-        console.log("blob is *************", blob);
+        // console.log("blob is *************", blob);
         this.sendPasteImage(blob);
       }
     },
     //send paste image
     sendPasteImage(file) {
+
       if (!file) {
         e.preventDefault();
         this.$message.warning("No file chosen");
@@ -384,15 +389,15 @@ export default {
         return;
       }
       var resulturl = URL.createObjectURL(file);
-      console.log("resulturl", resulturl);
-      console.log("file name is", file.name);
+      // console.log("resulturl", resulturl);
+      // console.log("file name is", file.name);
       let fd = new FormData();
       fd.append("file", file, file.name);
       this.axios
         .post(this.uploadPhotoUrl, fd)
         .then((res) => {
           this.$store.commit("Loading_Spinner", true);
-          console.log("res of imageeeeeeeeeeeeee", res);
+          // console.log("res of imageeeeeeeeeeeeee", res);
           if (res.data.code == "0") {
             this.$store.commit("Loading_Spinner", false);
             this.uploadImage = res.data.data.name;
@@ -400,8 +405,8 @@ export default {
 
             // if (!this.$Global.customerInfo.customerId) return;
             let mySend = {
-              from_id: this.$Global.customerInfo.userId,
-              to_id: this.$Global.customerInfo.customerId,
+              from_id: this.$store.state.customerInfo.userId,
+              to_id: this.$store.state.customerInfo.customerId,
               message: this.uploadImage,
               time: moment(new Date()).format("YYYY-MM-DD hh:mm:ss"),
               msgType: 1,
@@ -413,9 +418,9 @@ export default {
               JsonData: {
                 msg: this.uploadImage, //信息内容,如有表情包按表情字符发送
                 msgType: 1, //信息类型: 0 文本  1 图片   ,如果是发图片,则先提交图片,返回地
-                from_id: this.$Global.customerInfo.userId,
-                to_id: this.$Global.customerInfo.customerId,
-                customer_id: this.$Global.customerInfo.customerId,
+                from_id: this.$store.state.customerInfo.userId,
+                to_id: this.$store.state.customerInfo.customerId,
+                customer_id: this.$store.state.customerInfo.customerId,
                 time: moment(new Date()).format("YYYY-MM-DD hh:mm:ss"),
               },
             };
@@ -482,8 +487,8 @@ export default {
       return this.EXPS;
     },
     SendMsg() {
-      // console.log("global is *****************************", this.$Global);
-
+      // console.log("global is *****************************", this.$Global.chatRecord);
+      // console.log("btn");
       let blank =
         this.chatmsg.split(" ").every((n) => {
           return /^(&nbsp;)+$/.test(n); // 针对空格为&nbsp;的情况
@@ -502,23 +507,23 @@ export default {
       )
         return;
       let mySend = {
-        from_id: this.$Global.customerInfo.userId,
-        to_id: this.$Global.customerInfo.customerId,
+        from_id: this.$store.state.customerInfo.userId,
+        to_id: this.$store.state.customerInfo.customerId,
         message: this.chatmsg,
         time: moment(new Date()).format("YYYY-MM-DD hh:mm:ss"),
         msgType: 0,
       };
       // this.autoFocusMsg();
       this.$store.state.showEmoji = false;
-      if (!this.$Global.customerInfo.customerId) return;
+      if (!this.$store.state.customerInfo.customerId) return;
       let sendData = {
         router: "sendChat",
         JsonData: {
           msg: this.chatmsg, //信息内容,如有表情包按表情字符发送
           msgType: 0, //信息类型: 0 文本  1 图片   ,如果是发图片,则先提交图片,返回地
-          from_id: this.$Global.customerInfo.userId,
-          to_id: this.$Global.customerInfo.customerId,
-          customer_id: this.$Global.customerInfo.customerId,
+          from_id: this.$store.state.customerInfo.userId,
+          to_id: this.$store.state.customerInfo.customerId,
+          customer_id: this.$store.state.customerInfo.customerId,
           time: moment(new Date()).format("YYYY-MM-DD hh:mm:ss"),
         },
       };
@@ -558,19 +563,20 @@ export default {
 
     downloadImage(imgName) {
       let srcImg =
-        "http://" +
+        // "http://" +
         window.g.ip +
-        ":" +
-        window.g.imgPort +
+        // ":" +
+        // window.g.imgPort +
         "/download?imgName=" +
         imgName;
       return srcImg;
     },
 
+    //upload image
     put(e) {
-      console.log("image is *************", e.target.files);
+      // console.log("image is *************", e.target.files);
       const file = e.target.files[0];
-      console.log(file);
+      // console.log(file);
       if (!file) {
         e.preventDefault();
         this.$message.warning("No file chosen");
@@ -596,22 +602,22 @@ export default {
       }
 
       var resulturl = URL.createObjectURL(file);
-      console.log("resulturl", resulturl);
-      console.log("file name is", file.name);
+      // console.log("resulturl", resulturl);
+      // console.log("file name is", file.name);
       let fd = new FormData();
       fd.append("file", file, file.name);
       this.axios
         .post(this.uploadPhotoUrl, fd)
         .then((res) => {
-          console.log("res of imageeeeeeeeeeeeee", res);
+          // console.log("res of imageeeeeeeeeeeeee", res);
           if (res.data.code == "0") {
             this.uploadImage = res.data.data.name;
             // this.$store.commit("play", true);
 
             // if (!this.$Global.customerInfo.customerId) return;
             let mySend = {
-              from_id: this.$Global.customerInfo.userId,
-              to_id: this.$Global.customerInfo.customerId,
+              from_id: this.$store.state.customerInfo.userId,
+              to_id: this.$store.state.customerInfo.customerId,
               message: this.uploadImage,
               time: moment(new Date()).format("YYYY-MM-DD hh:mm:ss"),
               msgType: 1,
@@ -623,9 +629,9 @@ export default {
               JsonData: {
                 msg: this.uploadImage, //信息内容,如有表情包按表情字符发送
                 msgType: 1, //信息类型: 0 文本  1 图片   ,如果是发图片,则先提交图片,返回地
-                from_id: this.$Global.customerInfo.userId,
-                to_id: this.$Global.customerInfo.customerId,
-                customer_id: this.$Global.customerInfo.customerId,
+                from_id: this.$store.state.customerInfo.userId,
+                to_id: this.$store.state.customerInfo.customerId,
+                customer_id: this.$store.state.customerInfo.customerId,
                 time: moment(new Date()).format("YYYY-MM-DD hh:mm:ss"),
               },
             };

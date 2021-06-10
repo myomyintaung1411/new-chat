@@ -6,16 +6,15 @@
         class="agent-avatar"
         draggable="false"
       />
-
     </div>
     <!--  -->
     <div
       class="layui-col-xs9 chat-header-title"
-      v-if="this.$Global.customerInfo.customer_nickname"
+      v-if="this.$store.state.customerInfo.customer_nickname"
     >
-      {{ this.$Global.customerInfo.customer_nickname }}
+      {{ this.$store.state.customerInfo.customer_nickname }}
     </div>
-    <div class="layui-col-xs9 chat-header-title" v-else>上分客服01</div>
+    <!-- <div class="layui-col-xs9 chat-header-title" v-else>上分客服01</div> -->
 
     <div class="layui-col-xs1 chat-header-tool" id="operatorVoice">
       <span

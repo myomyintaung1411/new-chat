@@ -44,14 +44,14 @@ function transTime(times) {
 }
 
 function getChatMessage(rData) {
-  console.log("chatmesage data is  ********", rData);
-  
-    //  if (store.state.soundOpen == true) {
-    //   store.commit("play", true);
-    //   } else {
-    //     store.commit("pause", false);
-    //   }
-   
+  //console.log("chatmesage data is  ********", rData);
+
+  //  if (store.state.soundOpen == true) {
+  //   store.commit("play", true);
+  //   } else {
+  //     store.commit("pause", false);
+  //   }
+
 
   var data = rData.data;
   $Global.chatRecord = [];
@@ -61,7 +61,7 @@ function getChatMessage(rData) {
   $Global.chatRecord = data.reverse();
 
 
-  //console.log("chat record data is *************",$Global.chatRecord);
+  //console.log("chat record data is *************", $Global.chatRecord);
   store.commit("setOneToOneChatRecord", $Global.chatRecord);
   // setReadFlag(data)
 }
@@ -132,17 +132,17 @@ function setReadFlag(rData) {
   // console.log("read data is ", rData);
   let msgId = [];
   rData.forEach(value => {
-     msgId.push(value.msg_id)
+    msgId.push(value.msg_id)
   })
   console.log(msgId);
   let sendData = {
     router: "setReadFlag ",
     JsonData: {
-     arrMsgId:msgId
+      arrMsgId: msgId
     },
   };
   console.log("senddata  of setRead flag is ******* ", sendData);
-  console.log("pomelo is ",$pomelo.send(sendData));
+  console.log("pomelo is ", $pomelo.send(sendData));
   $pomelo.send(sendData);
 
 }
@@ -150,10 +150,10 @@ function setReadFlag(rData) {
 function getChat(rData) {
   console.log("chatmesage data is  ********", rData);
   if (store.state.soundOpen == true) {
-      store.commit("play", true);
-      } else {
-        store.commit("pause", false);
-      }
+    store.commit("play", true);
+  } else {
+    store.commit("pause", false);
+  }
   var data = rData.data;
   // $Global.chatRecord = [];
   for (let i = 0; i < data.length; i++) {
@@ -162,12 +162,12 @@ function getChat(rData) {
 
   // $Global.chatRecord = data
 
-   $Global.chatRecord.push(data)
+  $Global.chatRecord.push(data)
   //console.log("chat record data is *************",$Global.chatRecord);
   store.commit("setOneToOneChatRecord", $Global.chatRecord);
   console.log("inside of getchat setreadflag is work or not");
   // setReadFlag(data)
-     
+
 }
 
 function getChatForInRoom(rData) {

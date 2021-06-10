@@ -2,6 +2,7 @@ import pomelo from "./PomeloClient.js";
 import global from "./global";
 import ws from "./ws2";
 import AES from '../api/aes'
+import store from '../store/index'
 var nHeartBeat = 0;
 var s_timer;
 var p_server = new Pomelo();
@@ -37,13 +38,15 @@ var p_server2 = new Pomelo();
 //   );
 // }
 function conn(cb) {
-  console.log(window.g.ip, window.g.pomelo_ws_port);
-  console.log(global.customerInfo.userId, global.customerInfo.token);
+  // console.log(window.g.ip, window.g.pomelo_ws_port);
+  // console.log(global.customerInfo.userId, global.customerInfo.token);
   // let loginInfo = JSON.parse(localStorage.getItem('LG_INFO'))
   // console.log('login info ...00000000000000', loginInfo)
-  var msg = { uid: global.customerInfo.userId }
-  var msg2 = { userId: global.customerInfo.userId, token: global.customerInfo.token, systemId: null || '', groupId: null || '', customerId: global.customerInfo.customerId || '' }
-  p_server.init({ host: window.g.ip, port: window.g.pomelo_ws_port, log: true },
+  var msg = { uid: store.state.customerInfo.userId }
+  var msg2 = { userId: store.state.customerInfo.userId, token: store.state.customerInfo.token, systemId: null || '', groupId: null || '', customerId: store.state.customerInfo.customerId || '' }
+  p_server.init(
+    { host: window.g.wsip, port: window.g.pomelo_ws_port, log: true },
+    //{ host: window.g.wsip, log: true },
     function () {
       p_server.request('gate.gateHandler.queryEntry', msg, res => {
         p_server.disconnect()
@@ -53,7 +56,7 @@ function conn(cb) {
             { host: res.host, port: res.port, log: true },
             function (res) {
               p_server2.request('connector.entryHandler.entry', msg2, res => {
-                console.log('Connector res ', res)
+                 console.log('Connector res ', res)
                 if (res.code == 200) {
                   startTimer()
                   cb(null, res)
@@ -87,7 +90,7 @@ p_server2.on("onMsg", function (e) {
 p_server2.on("onKick", function (e) {
   // 被踢开
   // console.log("--------pomelo onKick------------");
-  alert("亲,有相同帐号登录,你被踢出来了!");
+  // alert("亲,有相同帐号登录,你被踢出来了!");
   kick();
 });
 

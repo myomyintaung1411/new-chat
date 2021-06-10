@@ -16,6 +16,17 @@ export default new Vuex.Store({
     audioUrl: require("../api/default.wav"),
     OneToOneChatRecord: [],
     inRoom: {},
+    customerInfo: {
+      customerId: "",
+      customerImgUrl: "",
+      customer_nickname: "",
+      imgUrl: "",
+      level: "",
+      name: "",
+      nickname: "",
+      token: "",
+      userId: ""
+    },
   },
   getters: {
     //audio sound getter
@@ -61,9 +72,9 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         // console.log(query);
         axios.post(query.url, query.query).then((res) => {
-          console.log("response data is *************", res);
+          // console.log("response data is *************", res);
           var body = res.data;
-          console.log("ressssssssssssssssssss", body);
+          // console.log("ressssssssssssssssssss", body);
           if (body.result == "ok") {
             // commit('Loading_Spinner',false)
             global.customerInfo.customerId = body.customer_id;
@@ -80,7 +91,7 @@ export default new Vuex.Store({
             window.localStorage.setItem("c", AES.encrypt(JSON.stringify(body), en));
             // this.Loading();
             console.log(global.customerInfo);
-           return resolve()
+            return resolve()
           } else {
             message.error(body.reason);
             reject()
