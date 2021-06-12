@@ -17,21 +17,22 @@ export default
       pw: "",
       enable: 1
     },
-    customerInfo: {
-      customerId: "",
-      customerImgUrl: "",
-      customer_nickname: "",
-      imgUrl: "",
-      level: "",
-      name: "",
-      nickname: "",
-      token: "",
-      userId: ""
-    },
+    // customerInfo: {
+    //   customerId: "",
+    //   customerImgUrl: "",
+    //   customer_nickname: "",
+    //   imgUrl: "",
+    //   level: "",
+    //   name: "",
+    //   nickname: "",
+    //   token: "",
+    //   userId: ""
+    // },
     addPwStr: "$hn_ok$my_ok$hn_ok",
+    
     en: {
-      key: "@hKe9@A1lKe9$Tz1kE@8HnG7",
-      iv: 3,
+      key: 'u*ue/7Yydiw89UWEN$nie12B',
+      iv: '13598702'
     },
     listDataMember: {
       memberListData: [],

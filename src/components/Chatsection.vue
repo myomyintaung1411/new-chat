@@ -20,14 +20,16 @@
               <div style="position: absolute; right: 2px">
                 <img
                   class="my-circle"
-                  src="../assets/chatimg/customer.png"
+                  :src="chtImg.customer"
                   width="40px"
                   height="40px"
                   draggable="false"
                 />
               </div>
               <div class="outer-right">
-                <div class="read-msg">{{ $Global.customerInfo.name }}</div>
+                <div class="read-msg">
+                  {{ customerName }}
+                </div>
                 <div class="customer">
                   <div class="pre" v-html="replaceFace(item.message)"></div>
                 </div>
@@ -44,13 +46,15 @@
               <div style="position: absolute; right: 2px">
                 <img
                   class="my-circle"
-                  src="../assets/chatimg/customer.png"
+                  :src="chtImg.customer"
                   width="40px"
                   height="40px"
                 />
               </div>
               <div class="outer-right" v-show="downloadImage(item.message)">
-                <div class="read-msg">{{ $Global.customerInfo.name }}</div>
+                <div class="read-msg">
+                  {{ customerName }}
+                </div>
                 <div
                   class="customer"
                   @click="imgClick(downloadImage(item.message))"
@@ -74,7 +78,7 @@
               <div style="position: absolute; left: 3px">
                 <img
                   class="my-circle se_pic"
-                  src="../assets/chatimg/service.png"
+                  :src="chtImg.service"
                   width="40px"
                   height="40px"
                   draggable="false"
@@ -99,7 +103,7 @@
               <div style="position: absolute; left: 3px">
                 <img
                   class="my-circle se_pic"
-                  src="../assets/chatimg/service.png"
+                  :src="chtImg.service"
                   width="40px"
                   height="40px"
                   draggable="false"
@@ -210,14 +214,14 @@
       <div class="send-bar">
         <div class="tool-box">
           <a id="face_icon" href="javascript:" @click="ToggleEmoji()"
-            ><img src="../assets/chatimg/smile.png" alt="" draggable="false"
+            ><img :src="chtImg.smile" alt="" draggable="false"
           /></a>
           <!-- img -->
           <a id="images" href="javascript:">
             <form id="picture" enctype="multipart/form-data">
               <div class="layui-box input-but size">
                 <img
-                  src="../assets/chatimg/image.png"
+                  :src="chtImg.image"
                   alt=""
                   draggable="false"
                 />
@@ -262,7 +266,7 @@
               <ul class="layui-clear whisper-face-list">
                 <li v-for="(item, index) in getEXP()" :key="index">
                   <img
-                    :src="'../emotion/' + item.file"
+                    :src="'https://hn2210.com/emotion/' + item.file"
                     :data="item.code"
                     @click="emojiSelect(item.code)"
                     :title="item.title"
@@ -285,14 +289,20 @@ import moment from "moment";
 export default {
   data() {
     return {
-      //draggable
+      chtImg:{
+      customer:"https://hn2210.com/images/avatar.png",
+      service:"https://hn2210.com/images/service-avatar.png",
+       file:"https://hn2210.com/chatimg/file.png",
+       image:"https://hn2210.com/chatimg/image.png",
+       smile:"https://hn2210.com/chatimg/smile.png",
+      },
       name: "",
       mine: true,
 
       myMsg: this.$Global.isMe,
       uploadPhotoUrl:
         // "http://" + window.g.ip + ":" + window.g.imgPort + "/upload",
-       window.g.ip + "/upload",
+        window.g.ip + "/upload",
       positions: {
         clientX: undefined,
         clientY: undefined,
@@ -364,7 +374,6 @@ export default {
     },
     //send paste image
     sendPasteImage(file) {
-
       if (!file) {
         e.preventDefault();
         this.$message.warning("No file chosen");
@@ -397,7 +406,7 @@ export default {
         .post(this.uploadPhotoUrl, fd)
         .then((res) => {
           this.$store.commit("Loading_Spinner", true);
-          // console.log("res of imageeeeeeeeeeeeee", res);
+           console.log("res of imageeeeeeeeeeeeee", res);
           if (res.data.code == "0") {
             this.$store.commit("Loading_Spinner", false);
             this.uploadImage = res.data.data.name;
@@ -580,6 +589,7 @@ export default {
       if (!file) {
         e.preventDefault();
         this.$message.warning("No file chosen");
+        e.target.value = "";
         return;
       }
       var FileExt = file.name.replace(/.+\./, "");
@@ -672,6 +682,7 @@ export default {
       showModal: (state) => state.showModal,
       // records: (state) => state.OneToOneChatRecord,
       showEmoji: (state) => state.showEmoji,
+      customerName: (state) => state.customerInfo.name,
     }),
   },
   watch: {

@@ -32,6 +32,7 @@ export default {
   computed: {
     ...mapState({ loading: (state) => state.loading }),
   },
+
   methods: {
     Loading() {
       this.$store.commit("Loading_Spinner", false);
@@ -48,28 +49,32 @@ export default {
         // ":" +
         // window.g.pomelo_http_port +
         "/client_signIn";
+
       var en = this.$Global.en;
+      let endata = AES.encrypt(JSON.stringify(query), en);
+      console.log("endata is", endata);
       this.axios
-        .post(url, query)
+        .post(url, { data: endata })
         .then((res) => {
           // console.log("ressssssssssssssssssss", res);
           var body = res.data;
-           console.log("ressssssssssssssssssss", body);
+          console.log("ressssssssssssssssssss", body);
+          var msg = JSON.parse(AES.decrypt(body, en));
           // this.NotLoading();
-          if (body.result == "ok") {
-            this.$store.state.customerInfo.customerId = body.customer_id;
-            this.$store.state.customerInfo.customerImgUrl =
-              body.customer_imgUrl;
+          console.log("msg decry ***", msg);
+          if (res.status == "200") {
+            this.$store.state.customerInfo.customerId = msg.customer_id;
+            this.$store.state.customerInfo.customerImgUrl = msg.customer_imgUrl;
             this.$store.state.customerInfo.customer_nickname =
-              body.customer_nickname;
-            this.$store.state.customerInfo.imgUrl = body.imgUrl;
-            this.$store.state.customerInfo.level = body.level;
-            this.$store.state.customerInfo.name = body.name;
-            this.$store.state.customerInfo.nickname = body.nickname;
-            this.$store.state.customerInfo.token = body.token;
-            this.$store.state.customerInfo.userId = body.userId;
+              msg.customer_nickname;
+            this.$store.state.customerInfo.imgUrl = msg.imgUrl;
+            this.$store.state.customerInfo.level = msg.level;
+            this.$store.state.customerInfo.name = msg.name;
+            this.$store.state.customerInfo.nickname = msg.nickname;
+            this.$store.state.customerInfo.token = msg.token;
+            this.$store.state.customerInfo.userId = msg.userId;
 
-            localStorage.setItem("c", AES.encrypt(JSON.stringify(body), en));
+            localStorage.setItem("c", AES.encrypt(JSON.stringify(msg), en));
             // this.Loading();
           } else {
             this.$message.error(body.reason);
@@ -135,28 +140,31 @@ export default {
         // window.g.pomelo_http_port +
         "/client_signIn";
       var en = this.$Global.en;
+      let endata = AES.encrypt(JSON.stringify(query), en);
+      console.log("getAlreadyClientInfo endata is", endata);
+
       // this.NotLoading();
       this.axios
-        .post(url, query)
+        .post(url, { data: endata })
         .then((res) => {
-           console.log("ressssssssssssssssssss of created", res);
+          console.log("ressssssssssssssssssss of created", res);
           var body = res.data;
-          //  console.log("ressssssssssssssssssss created", body);
+          var msg = JSON.parse(AES.decrypt(body, en));
+          console.log("ressssssssssssssssssss decry", msg);
 
-          if (body.result == "ok") {
-            this.$store.state.customerInfo.customerId = body.customer_id;
-            this.$store.state.customerInfo.customerImgUrl =
-              body.customer_imgUrl;
+          if (res.status == "200") {
+            this.$store.state.customerInfo.customerId = msg.customer_id;
+            this.$store.state.customerInfo.customerImgUrl = msg.customer_imgUrl;
             this.$store.state.customerInfo.customer_nickname =
-              body.customer_nickname;
-            this.$store.state.customerInfo.imgUrl = body.imgUrl;
-            this.$store.state.customerInfo.level = body.level;
-            this.$store.state.customerInfo.name = body.name;
-            this.$store.state.customerInfo.nickname = body.nickname;
-            this.$store.state.customerInfo.token = body.token;
-            this.$store.state.customerInfo.userId = body.userId;
+              msg.customer_nickname;
+            this.$store.state.customerInfo.imgUrl = msg.imgUrl;
+            this.$store.state.customerInfo.level = msg.level;
+            this.$store.state.customerInfo.name = msg.name;
+            this.$store.state.customerInfo.nickname = msg.nickname;
+            this.$store.state.customerInfo.token = msg.token;
+            this.$store.state.customerInfo.userId = msg.userId;
 
-            localStorage.setItem("c", AES.encrypt(JSON.stringify(body), en));
+            localStorage.setItem("c", AES.encrypt(JSON.stringify(msg), en));
             // this.Loading();
           } else {
             this.$message.error(body.reason);
@@ -188,7 +196,12 @@ export default {
     encryptLocalStorage() {
       var en = this.$Global.en;
       const data = localStorage.getItem("c");
-      const dedata = JSON.parse(AES.decrypt(data, en));
+      const dedata = JSON.parse(
+        AES.decrypt(
+          data,
+          en
+        )
+      );
       this.$store.state.customerInfo.customerId = dedata.customer_id;
       this.$store.state.customerInfo.customerImgUrl = dedata.customer_imgUrl;
       this.$store.state.customerInfo.customer_nickname =
@@ -213,22 +226,12 @@ export default {
           customerId: customerId,
         },
       };
-      //console.log("senddata is ", sendData);
+      // console.log("senddata is ", sendData);
       pomelo.send(sendData);
     },
-  },
 
-  created() {
-    // this.encryptLocalStorage();
-    let query;
-    if (localStorage.getItem("c") == null) {
-      query = this.$route.query;
-      // console.log(" query is ****************", query);
-      this.getClientInfo(query);
-      //get special query for s
-      this.$Global.isMe = query.special;
-    } else {
-      query = {
+    alreadyLogin() {
+      var param = {
         visiter_id: this.encryptLocalStorage().customer_id,
         visiter_name: this.encryptLocalStorage().name,
         avatar: "",
@@ -237,7 +240,75 @@ export default {
         special: this.$route.query.special,
       };
       this.$Global.isMe = this.$route.query.special;
-      this.getAlreadyClientInfo(query);
+      this.getAlreadyClientInfo(param);
+    },
+  },
+
+  created() {
+    // // this.encryptLocalStorage();
+    // let query;
+    // if (localStorage.getItem("c") == null
+    // ) {
+    //   query = this.$route.query;
+    //   // console.log(" query is ****************", query);
+    //   this.getClientInfo(query);
+    //   //get special query for s
+    //   this.$Global.isMe = query.special;
+    // }
+    // else if (
+    //   this.$route.query.visiter_name !== this.encryptLocalStorage().name &&
+    //   this.$route.query.visiter_name == "" && this.encryptLocalStorage().name
+    // ) {
+    //   query = this.$route.query;
+    //   console.log("**********************", query);
+    //   this.getClientInfo(query);
+    // }
+    // else {
+    //   query = {
+    //     visiter_id: this.encryptLocalStorage().customer_id,
+    //     visiter_name: this.encryptLocalStorage().name,
+    //     avatar: "",
+    //     business_id: this.$route.query.business_id,
+    //     groupid: this.$route.query.groupid,
+    //     special: this.$route.query.special,
+    //   };
+    //   this.$Global.isMe = this.$route.query.special;
+    //   this.getAlreadyClientInfo(query);
+    // }
+
+    let query;
+    //vistior name include
+    if (this.$route.query.visiter_name !== "") {
+      console.log("visitor name 277", this.encryptLocalStorage().name);
+      if (
+        localStorage.getItem("c") !== null &&
+        this.$route.query.visiter_name == this.encryptLocalStorage().name
+      ) {
+        this.alreadyLogin();
+      } else {
+        query = this.$route.query;
+        console.log(" query is **************** 284", query);
+        this.getClientInfo(query);
+      }
+    }
+    //not include visitor name
+    else {
+      if (localStorage.getItem("c") == null) {
+        query = this.$route.query;
+        console.log(" query is **************** 292", query);
+        this.getClientInfo(query);
+      } else {
+        console.log("visitor name 295", this.encryptLocalStorage().name);
+        if (this.encryptLocalStorage().name.indexOf("游客") !== -1) {
+          console.log("303 ***********");
+          this.alreadyLogin();
+        } else {
+          localStorage.removeItem("c");
+          query = this.$route.query;
+          console.log(" query is **************** 301", query);
+          this.getClientInfo(query);
+        }
+      }
     }
   },
 };

@@ -1,20 +1,13 @@
 <template>
   <div class="layui-row chat-header" style="background: #1e9fff">
     <div class="layui-col-xs2 chat-header-avatar">
-      <img
-        src="../assets/chatimg/service.png"
-        class="agent-avatar"
-        draggable="false"
-      />
+      <img :src="chatImg.service" class="agent-avatar" draggable="false" />
     </div>
     <!--  -->
-    <div
-      class="layui-col-xs9 chat-header-title"
-      v-if="this.$store.state.customerInfo.customer_nickname"
-    >
-      {{ this.$store.state.customerInfo.customer_nickname }}
+    <div class="layui-col-xs9 chat-header-title" v-if="customerNickName">
+      {{ customerNickName }}
     </div>
-    <!-- <div class="layui-col-xs9 chat-header-title" v-else>上分客服01</div> -->
+    <div class="layui-col-xs9 chat-header-title" v-else>客服01</div>
 
     <div class="layui-col-xs1 chat-header-tool" id="operatorVoice">
       <span
@@ -31,14 +24,14 @@
         >
         </iframe> -->
         <img
-          src="../assets/chatimg/sound.png"
+          :src="chatImg.sound"
           alt=""
           class="centerimg"
           v-if="soundState"
           draggable="false"
         />
         <img
-          src="../assets/chatimg/nosound.png"
+          :src="chatImg.nosound"
           alt=""
           class="centerimg"
           v-else
@@ -61,13 +54,22 @@ import { mapState, mapGetters } from "vuex";
 export default {
   data() {
     return {
+      chatImg: {
+        service: "https://hn2210.com/images/service-avatar.png",
+        sound: "https://hn2210.com/images/sound.png",
+        nosound: "https://hn2210.com/images/nosound.png",
+      },
       // soundOpen: true,
       // audioUrl: require("../api/default.wav"),
+      // img:require('../../public/img/chatimg/')
     };
   },
   computed: {
     ...mapGetters(["soundOpen"]),
-    ...mapState({ soundState: (state) => state.soundOpen }),
+    ...mapState({
+      soundState: (state) => state.soundOpen,
+      customerNickName: (state) => state.customerInfo.customer_nickname,
+    }),
   },
   watch: {
     soundOpen: function (state) {

@@ -67,7 +67,7 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    get_ClientInfo({ commit }, query) {
+    get_ClientInfo( query) {
       var en = global.en;
       return new Promise((resolve, reject) => {
         // console.log(query);

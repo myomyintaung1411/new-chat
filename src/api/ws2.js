@@ -7,8 +7,8 @@ import AES from '../api/aes'
 import message from '../components/Message/index'
 // import { Notification } from "element-ui"
 function doData(rData) {
-  // let en = $Global.en;
-  // rData = JSON.parse(AES.decrypt(rData, en));
+  let en = $Global.en;
+  rData = JSON.parse(AES.decrypt(rData, en));
   // console.log("doData:", rData, rData.router);
   switch (rData.router) {
     case "Login":
@@ -44,7 +44,7 @@ function transTime(times) {
 }
 
 function getChatMessage(rData) {
-  //console.log("chatmesage data is  ********", rData);
+  console.log("chatmesage data is  ********", rData);
 
   //  if (store.state.soundOpen == true) {
   //   store.commit("play", true);
@@ -54,6 +54,9 @@ function getChatMessage(rData) {
 
 
   var data = rData.data;
+
+
+  console.log("getchatmessage of decrypt data is", data)
   $Global.chatRecord = [];
   for (let i = 0; i < data.length; i++) {
     data[i].time = transTime(data[i].time);
@@ -155,6 +158,8 @@ function getChat(rData) {
     store.commit("pause", false);
   }
   var data = rData.data;
+
+  console.log("getChat of decrypt data is", data)
   // $Global.chatRecord = [];
   for (let i = 0; i < data.length; i++) {
     data[i].time = transTime(data[i].time);
