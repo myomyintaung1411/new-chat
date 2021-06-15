@@ -48,7 +48,7 @@ function conn(cb) {
   // let loginInfo = JSON.parse(localStorage.getItem('LG_INFO'))
   // console.log('login info ...00000000000000', loginInfo)
   var msg = { uid: store.state.customerInfo.userId }
-  var msg2 = { userId: store.state.customerInfo.userId, token: store.state.customerInfo.token, systemId: null || '', groupId: null || '', customerId: store.state.customerInfo.customerId || '' }
+  var msg2 = { userId: store.state.customerInfo.userId, level: 2, token: store.state.customerInfo.token, systemId: null || '', groupId: null || '', customerId: store.state.customerInfo.customerId || '' }
   p_server.init(
     { host: 'hn2210.com', port: '/conn2/', log: true },
     //{ host: window.g.wsip, log: true },

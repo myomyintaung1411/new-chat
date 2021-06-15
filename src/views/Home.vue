@@ -196,12 +196,7 @@ export default {
     encryptLocalStorage() {
       var en = this.$Global.en;
       const data = localStorage.getItem("c");
-      const dedata = JSON.parse(
-        AES.decrypt(
-          data,
-          en
-        )
-      );
+      const dedata = JSON.parse(AES.decrypt(data, en));
       this.$store.state.customerInfo.customerId = dedata.customer_id;
       this.$store.state.customerInfo.customerImgUrl = dedata.customer_imgUrl;
       this.$store.state.customerInfo.customer_nickname =
@@ -233,7 +228,7 @@ export default {
     alreadyLogin() {
       var param = {
         visiter_id: this.encryptLocalStorage().customer_id,
-        visiter_name: this.encryptLocalStorage().name,
+        name: this.encryptLocalStorage().name,
         avatar: "",
         business_id: this.$route.query.business_id,
         groupid: this.$route.query.groupid,
@@ -278,17 +273,18 @@ export default {
 
     let query;
     //vistior name include
-    if (this.$route.query.visiter_name !== "") {
-      console.log("visitor name 277", this.encryptLocalStorage().name);
+    if (this.$route.query.name !== "") {
+      // console.log("visitor name 277", this.encryptLocalStorage().name);
       if (
         localStorage.getItem("c") !== null &&
-        this.$route.query.visiter_name == this.encryptLocalStorage().name
+        this.$route.query.name == this.encryptLocalStorage().name
       ) {
         this.alreadyLogin();
       } else {
         query = this.$route.query;
         console.log(" query is **************** 284", query);
         this.getClientInfo(query);
+        this.$Global.isMe = this.$route.query.special;
       }
     }
     //not include visitor name
@@ -297,6 +293,7 @@ export default {
         query = this.$route.query;
         console.log(" query is **************** 292", query);
         this.getClientInfo(query);
+        this.$Global.isMe = this.$route.query.special;
       } else {
         console.log("visitor name 295", this.encryptLocalStorage().name);
         if (this.encryptLocalStorage().name.indexOf("游客") !== -1) {
@@ -307,6 +304,7 @@ export default {
           query = this.$route.query;
           console.log(" query is **************** 301", query);
           this.getClientInfo(query);
+          this.$Global.isMe = this.$route.query.special;
         }
       }
     }
