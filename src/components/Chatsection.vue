@@ -220,11 +220,7 @@
           <a id="images" href="javascript:">
             <form id="picture" enctype="multipart/form-data">
               <div class="layui-box input-but size">
-                <img
-                  :src="chtImg.image"
-                  alt=""
-                  draggable="false"
-                />
+                <img :src="chtImg.image" alt="" draggable="false" />
                 <input
                   type="file"
                   name="upload"
@@ -266,7 +262,7 @@
               <ul class="layui-clear whisper-face-list">
                 <li v-for="(item, index) in getEXP()" :key="index">
                   <img
-                    :src="'https://hn2210.com/emotion/' + item.file"
+                    :src="'https://tysq666.cn/emotion/' + item.file"
                     :data="item.code"
                     @click="emojiSelect(item.code)"
                     :title="item.title"
@@ -289,12 +285,12 @@ import moment from "moment";
 export default {
   data() {
     return {
-      chtImg:{
-      customer:"https://hn2210.com/images/avatar.png",
-      service:"https://hn2210.com/images/service-avatar.png",
-       file:"https://hn2210.com/chatimg/file.png",
-       image:"https://hn2210.com/chatimg/image.png",
-       smile:"https://hn2210.com/chatimg/smile.png",
+      chtImg: {
+        customer: "https://tysq666.cn/images/avatar.png",
+        service: "https://tysq666.cn/images/service-avatar.png",
+        file: "https://tysq666.cn/chatimg/file.png",
+        image: "https://tysq666.cn/chatimg/image.png",
+        smile: "https://tysq666.cn/chatimg/smile.png",
       },
       name: "",
       mine: true,
@@ -406,7 +402,7 @@ export default {
         .post(this.uploadPhotoUrl, fd)
         .then((res) => {
           this.$store.commit("Loading_Spinner", true);
-           console.log("res of imageeeeeeeeeeeeee", res);
+          console.log("res of imageeeeeeeeeeeeee", res);
           if (res.data.code == "0") {
             this.$store.commit("Loading_Spinner", false);
             this.uploadImage = res.data.data.name;

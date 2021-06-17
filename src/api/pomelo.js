@@ -50,7 +50,7 @@ function conn(cb) {
   var msg = { uid: store.state.customerInfo.userId }
   var msg2 = { userId: store.state.customerInfo.userId, level: 2, token: store.state.customerInfo.token, systemId: null || '', groupId: null || '', customerId: store.state.customerInfo.customerId || '' }
   p_server.init(
-    { host: 'hn2210.com', port: '/conn2/', log: true },
+    { host: 'tysq666.cn', port: '/conn2/', log: true },
     //{ host: window.g.wsip, log: true },
     function () {
       p_server.request('gate.gateHandler.queryEntry', msg, res => {
@@ -133,7 +133,7 @@ p_server2.on("onMsg", function (e) {
 p_server2.on("onKick", function (e) {
   // 被踢开
   // console.log("--------pomelo onKick------------");
-  // alert("亲,有相同帐号登录,你被踢出来了!");
+  alert("亲,有相同帐号登录,你被踢出来了!");
   kick();
 });
 

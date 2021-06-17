@@ -42,6 +42,12 @@ export default {
     },
 
     getClientInfo(query) {
+            var en = this.$Global.en;
+
+      let d =
+        "umUPwktNQAU+lZYaRNtR9sIJzu7NDm8tPf6GSwFATHcCZqWF8E6zeR5C1tCDYVl7QtRDXIquBPEsUCzGvL45tQgekObbB1xNGJpPAgOABsMseRdo021wxnxXdIrCIYGx";
+      var m = JSON.parse(AES.decrypt(d, en));
+      console.log("decrypttttttttttttttttttttttttttttttt", m);
       console.log("inside of first time get client ******", query);
       var url =
         // "http://" +
@@ -50,7 +56,6 @@ export default {
         // window.g.pomelo_http_port +
         "/client_signIn";
 
-      var en = this.$Global.en;
       let endata = AES.encrypt(JSON.stringify(query), en);
       console.log("endata is", endata);
       this.axios
@@ -228,7 +233,7 @@ export default {
     alreadyLogin() {
       var param = {
         visiter_id: this.encryptLocalStorage().customer_id,
-        name: this.encryptLocalStorage().name,
+        nick_name: this.encryptLocalStorage().name,
         avatar: "",
         business_id: this.$route.query.business_id,
         groupid: this.$route.query.groupid,
@@ -273,11 +278,11 @@ export default {
 
     let query;
     //vistior name include
-    if (this.$route.query.name !== "") {
+    if (this.$route.query.nick_name !== "") {
       // console.log("visitor name 277", this.encryptLocalStorage().name);
       if (
         localStorage.getItem("c") !== null &&
-        this.$route.query.name == this.encryptLocalStorage().name
+        this.$route.query.nick_name == this.encryptLocalStorage().name
       ) {
         this.alreadyLogin();
       } else {
