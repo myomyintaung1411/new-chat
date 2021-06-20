@@ -42,12 +42,11 @@ export default {
     },
 
     getClientInfo(query) {
-            var en = this.$Global.en;
 
-      let d =
-        "umUPwktNQAU+lZYaRNtR9sIJzu7NDm8tPf6GSwFATHcCZqWF8E6zeR5C1tCDYVl7QtRDXIquBPEsUCzGvL45tQgekObbB1xNGJpPAgOABsMseRdo021wxnxXdIrCIYGx";
-      var m = JSON.parse(AES.decrypt(d, en));
-      console.log("decrypttttttttttttttttttttttttttttttt", m);
+      // let d =
+      //   "umUPwktNQAU+lZYaRNtR9sIJzu7NDm8tPf6GSwFATHcCZqWF8E6zeR5C1tCDYVl7QtRDXIquBPEsUCzGvL45tQgekObbB1xNGJpPAgOABsMseRdo021wxnxXdIrCIYGx";
+      // var m = JSON.parse(AES.decrypt(d, en));
+      // console.log("decrypttttttttttttttttttttttttttttttt", m);
       console.log("inside of first time get client ******", query);
       var url =
         // "http://" +
@@ -55,7 +54,7 @@ export default {
         // ":" +
         // window.g.pomelo_http_port +
         "/client_signIn";
-
+      var en = this.$Global.en;
       let endata = AES.encrypt(JSON.stringify(query), en);
       console.log("endata is", endata);
       this.axios
@@ -81,12 +80,7 @@ export default {
 
             localStorage.setItem("c", AES.encrypt(JSON.stringify(msg), en));
             // this.Loading();
-          } else {
-            this.$message.error(body.reason);
-          }
-        })
-        .then(() => {
-          this.$pomelo.conn((err, res) => {
+           this.$pomelo.conn((err, res) => {
             // console.log(res);
             if (err) console.error(err);
             if (res.code == 200) {
@@ -95,17 +89,17 @@ export default {
               // console.log(res);
             }
           });
+          } else {
+          // var errorbody = res.data;
+          this.$message.error(body.reason);
+          }
         })
         .catch((e) => {
           console.log(e.toString());
           // this.Loading();
           this.$message.error(e.toString());
         })
-        .catch((e) => {
-          console.log(e);
-          // this.Loading();
-          this.$message.error(e.toString());
-        });
+
     },
 
     // getClientInfo(query) {
@@ -170,13 +164,7 @@ export default {
             this.$store.state.customerInfo.userId = msg.userId;
 
             localStorage.setItem("c", AES.encrypt(JSON.stringify(msg), en));
-            // this.Loading();
-          } else {
-            this.$message.error(body.reason);
-          }
-        })
-        .then(() => {
-          this.$pomelo.conn((err, res) => {
+            this.$pomelo.conn((err, res) => {
             // console.log(res);
             if (err) console.error(err);
             if (res.code == 200) {
@@ -185,17 +173,17 @@ export default {
               this.getChatMessage();
             }
           });
+          } else {
+          // var errorbody = res.data;
+          // var err_msg = AES.decrypt(errorbody, en);
+          this.$message.error(body.reason);
+          }
         })
         .catch((e) => {
           console.log(e);
           // this.Loading();
           return this.$message.error(e.toString());
         })
-        .catch((e) => {
-          console.log(e);
-          // this.Loading();
-          return this.$message.error(e.toString());
-        });
     },
 
     encryptLocalStorage() {

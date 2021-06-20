@@ -134,6 +134,7 @@ p_server2.on("onKick", function (e) {
   // 被踢开
   // console.log("--------pomelo onKick------------");
   alert("亲,有相同帐号登录,你被踢出来了!");
+  
   kick();
 });
 
@@ -141,7 +142,8 @@ function kick() {
   nHeartBeat = 0;
   p_server2.disconnect();
   clearInterval(s_timer);
-  window.location.reload();
+  //  clearInterval(this.interval)
+  // window.location.reload();
 }
 
 var n = 0;
