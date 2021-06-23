@@ -567,12 +567,7 @@ export default {
     },
 
     downloadImage(imgName) {
-      let srcImg =
-        // "http://" +
-        window.g.ip +
-        // ":" +
-        // window.g.imgPort +
-        "/download?imgName=" +
+      let srcImg = "https://tysq666.cn/" +
         imgName;
       return srcImg;
     },

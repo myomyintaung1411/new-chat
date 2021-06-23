@@ -1,10 +1,10 @@
 <template>
-  <div class="home" :class="{ disablePage: loading == true }">
+  <!-- <div 
+   :class="[{home: true}, {phonee: Screenwidth > 1000 ? true: false}]"
+   > -->
+  <div  class="home">
     <Header></Header>
-
     <Chatsection></Chatsection>
-    <!-- <RightSide></RightSide> -->
-
     <Loader v-if="loading"></Loader>
   </div>
 </template>
@@ -29,6 +29,12 @@ export default {
     Loader,
     // RightSide,
   },
+  data() {
+    return {
+      Screenwidth: "",
+      Screenheight:"",
+    }
+  },
   computed: {
     ...mapState({ loading: (state) => state.loading }),
   },
@@ -42,14 +48,9 @@ export default {
     },
 
     getClientInfo(query) {
-
-      // let d =
-      //   "umUPwktNQAU+lZYaRNtR9sIJzu7NDm8tPf6GSwFATHcCZqWF8E6zeR5C1tCDYVl7QtRDXIquBPEsUCzGvL45tQgekObbB1xNGJpPAgOABsMseRdo021wxnxXdIrCIYGx";
-      // var m = JSON.parse(AES.decrypt(d, en));
-      // console.log("decrypttttttttttttttttttttttttttttttt", m);
       console.log("inside of first time get client ******", query);
       var url =
-        // "http://" +
+        // "https://" +
         window.g.ip +
         // ":" +
         // window.g.pomelo_http_port +
@@ -57,7 +58,7 @@ export default {
       var en = this.$Global.en;
       let endata = AES.encrypt(JSON.stringify(query), en);
       console.log("endata is", endata);
-      this.axios
+       this.axios
         .post(url, { data: endata })
         .then((res) => {
           // console.log("ressssssssssssssssssss", res);
@@ -99,7 +100,6 @@ export default {
           // this.Loading();
           this.$message.error(e.toString());
         })
-
     },
 
     // getClientInfo(query) {
@@ -131,9 +131,10 @@ export default {
     // },
 
     getAlreadyClientInfo(query) {
+
       console.log("inside of getAlreadyClientInfo client ******", query);
       var url =
-        // "http://" +
+        // "https://" +
         window.g.ip +
         // ":" +
         // window.g.pomelo_http_port +
@@ -143,7 +144,7 @@ export default {
       console.log("getAlreadyClientInfo endata is", endata);
 
       // this.NotLoading();
-      this.axios
+        this.axios
         .post(url, { data: endata })
         .then((res) => {
           console.log("ressssssssssssssssssss of created", res);
@@ -230,9 +231,17 @@ export default {
       this.$Global.isMe = this.$route.query.special;
       this.getAlreadyClientInfo(param);
     },
+    windowScreen() {
+     this.Screenwidth = window.screen.width
+     this.Screenheight = window.screen.height
+     console.log(this.Screenwidth,this.Screenheight)
+    }
   },
-
+  // mounted () {
+  //   this.windowScreen();
+  // },
   created() {
+  this.windowScreen()
     // // this.encryptLocalStorage();
     // let query;
     // if (localStorage.getItem("c") == null
@@ -312,10 +321,18 @@ export default {
   position: absolute;
   background: #f7f7f7;
   padding: 0;
+  left:0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
   // width: 100%;
   // height: 100%;
   // position: absolute;
   // pointer-events: none;
+}
+.phonee{
+  max-width: 400px;
 }
 .disablePage {
   pointer-events: none;

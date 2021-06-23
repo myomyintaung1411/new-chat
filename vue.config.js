@@ -38,4 +38,15 @@ module.exports = {
             config.mode = 'development'
         }
     },
+    // devServer: {
+    //   proxy:{
+    //      '/ceshi:' : {
+    //          target: 'https://tysq666.cn/conn1',
+    //          changeOrigin:true,
+    //          pathRewrite: {
+    //              '^/ceshi': ''
+    //          }
+    //      }
+    //   }
+    // }
 }
