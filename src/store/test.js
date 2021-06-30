@@ -66,3 +66,44 @@ login() {
         });
       });
     },
+
+
+  //   <swiper  class="swiper-list" :indicator-dots="true">
+  //   <swiper-item >
+  //     <view class="swiper-item" v-for="(item, index) in getEXP()" :key="index">
+  //           <image src="" mode=""
+  //      :src="'https://tysq666.cn/emotion/' + item.file"
+  //      :data="item.code"
+  //      @click="emojiSelect(item.code)"
+  //      :title="item.title"
+  //      class="emoji-image"
+  //      >
+  //     </image>
+  //     </view>
+  //   </swiper-item>
+  // </swiper>
+  	 /* emoji code */
+  //    .emoji-view {
+  //     height: 300upx;
+  //     background-color: red;
+  //     position: fixed;
+  //     bottom: 0;
+  //     left: 0;
+  //     right: 0;
+  //     overflow: hidden;
+  //     box-shadow: 0 0 20px rgb(0, 0, 0 / 20%);
+  //     width: 100%;
+  //   }
+  //   .swiper-list{
+  //    padding-top: 20upx;
+  //    background-color: red;
+  //  }
+  //  .swiper-item {
+  //    display: flex;
+  //    align-items: center;
+  //    flex-wrap: wrap;
+  //  }
+  //  .emoji-image{
+  //    width: 40upx;
+  //    height: 40upx;
+  //  }

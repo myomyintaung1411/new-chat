@@ -1,12 +1,11 @@
 <template>
-  <div>
+  <div >
     <div class="layui-row chat-body">
+      <!-- testing -->
+    
+      <!--  -->
       <!-- here style bind for overflow -->
-      <div
-        id="chatlist"
-        v-bind:class="{ closechatbox: showModal == true }"
-        class="chatbox"
-      >
+      <div id="chatlist" v-bind:class="{ closechatbox: showModal == true }" class="chatbox">
         <ul class="conversation">
           <!-- customer send chat text -->
           <template v-for="item in records">
@@ -27,9 +26,7 @@
                 />
               </div>
               <div class="outer-right">
-                <div class="read-msg">
-                  {{ customerName }}
-                </div>
+                <div class="read-msg">{{ customerName }}</div>
                 <div class="customer">
                   <div class="pre" v-html="replaceFace(item.message)"></div>
                 </div>
@@ -44,24 +41,14 @@
             >
               <div class="showtime">{{ item.time }}</div>
               <div style="position: absolute; right: 2px">
-                <img
-                  class="my-circle"
-                  :src="chtImg.customer"
-                  width="40px"
-                  height="40px"
-                />
+                <img class="my-circle" :src="chtImg.customer" width="40px" height="40px" />
               </div>
               <div class="outer-right" v-show="downloadImage(item.message)">
-                <div class="read-msg">
-                  {{ customerName }}
-                </div>
-                <div
-                  class="customer"
-                  @click="imgClick(downloadImage(item.message))"
-                >
+                <div class="read-msg">{{ customerName }}</div>
+                <div class="customer" @click="imgClick(downloadImage(item.message))">
                   <img
                     :src="downloadImage(item.message)"
-                    alt=""
+                    alt
                     style="max-width: 100%; width: 150px; height: 80px"
                   />
                 </div>
@@ -110,13 +97,10 @@
                 />
               </div>
               <div class="outer-left" v-show="downloadImage(item.message)">
-                <div
-                  class="service"
-                  @click="imgClick(downloadImage(item.message))"
-                >
+                <div class="service" @click="imgClick(downloadImage(item.message))">
                   <img
                     :src="downloadImage(item.message)"
-                    alt=""
+                    alt
                     style="max-width: 100%; width: 150px; height: 80px"
                     draggable="false"
                   />
@@ -161,14 +145,14 @@
                   </p>
                 </div>
               </div>
-            </li> -->
+            </li>-->
           </template>
         </ul>
       </div>
       <!-- modal -->
       <transition name="pop" appear>
         <div
-          style=""
+          style
           class="modal"
           v-if="showModal == true"
           ref="draggableContainer"
@@ -179,12 +163,7 @@
             <div class="inner">&times;</div>
           </div>
 
-          <img
-            :src="imgData"
-            alt=""
-            draggable="false"
-            @dblclick="SaveImage(imgData)"
-          />
+          <img :src="imgData" alt draggable="false" @dblclick="SaveImage(imgData)" />
         </div>
       </transition>
       <!-- end modal -->
@@ -209,27 +188,26 @@
           @focusEvent="focusEvent"
           @SendMsg="SendMsg"
         >
-        </Editable> -->
+        </Editable>-->
       </div>
       <div class="send-bar">
         <div class="tool-box">
-          <a id="face_icon" href="javascript:" @click="ToggleEmoji()"
-            ><img :src="chtImg.smile" alt="" draggable="false"
-          /></a>
+          <a id="face_icon" href="javascript:" @click="ToggleEmoji()">
+            <img :src="chtImg.smile" alt draggable="false" />
+          </a>
           <!-- img -->
           <a id="images" href="javascript:">
             <form id="picture" enctype="multipart/form-data">
               <div class="layui-box input-but size">
-                <img :src="chtImg.image" alt="" draggable="false" />
-                <input
-                  type="file"
-                  name="upload"
-                  class="fileinput"
-                  @change="put"
-                />
+                <img :src="chtImg.image" alt draggable="false" />
+                <input type="file" name="upload" class="fileinput" @change="put" />
               </div>
             </form>
           </a>
+          <!-- <span style="color:red;cursor:pointer;" @click="takeScreenShot()" class="img-box">截屏</span> -->
+          <!-- <a id="face_icon" href="javascript:" @click="takeScreenShot()">
+            <img :src="chtImg.smile" alt draggable="false" />
+          </a> -->
         </div>
         <!-- send btn -->
         <div class="send-btn-div">
@@ -281,6 +259,8 @@
 <script>
 import { mapState } from "vuex";
 import moment from "moment";
+// import html2canvas from "html2canvas";
+// import ScreenShort from "js-web-screen-shot";
 // import AES from "../api/aes";
 export default {
   data() {
@@ -290,7 +270,7 @@ export default {
         service: "https://tysq666.cn/images/service-avatar.png",
         file: "https://tysq666.cn/chatimg/file.png",
         image: "https://tysq666.cn/chatimg/image.png",
-        smile: "https://tysq666.cn/chatimg/smile.png",
+        smile: "https://tysq666.cn/chatimg/smile.png"
       },
       name: "",
       mine: true,
@@ -303,7 +283,7 @@ export default {
         clientX: undefined,
         clientY: undefined,
         movementX: 0,
-        movementY: 0,
+        movementY: 0
       },
       // showModal: false,
       // showEmoji: false,
@@ -313,9 +293,25 @@ export default {
       //for image testing
       records: [],
       uploadImage: "",
+      //testing method of ss
+       htmlUrl:''
     };
   },
   methods: {
+
+    takeScreenShot() {
+      // new ScreenShort();
+        // window.location.href="about:blank";
+        // window.close();
+      //  window.opener=null;
+      //  window.open('','_self');
+      //  window.close();
+      var opened=window.open('about:blank','_self');
+      opened.opener=null;
+      opened.close();
+      // window.open("http://hn232.com", "newwindow", "height=500, width=600, top=200, left=300, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no")
+
+    },
     SaveImage(img) {
       // console.log("image is ", img);
 
@@ -323,7 +319,7 @@ export default {
       // console.log("cut is ***************", cut);
       this.axios
         .get(img, { responseType: "blob" })
-        .then((res) => {
+        .then(res => {
           // console.log(res);
           var fileUrl = window.URL.createObjectURL(new Blob([res.data]));
           var fileLink = document.createElement("a");
@@ -332,7 +328,7 @@ export default {
           document.body.appendChild(fileLink);
           fileLink.click();
         })
-        .catch((e) => {
+        .catch(e => {
           console.log(e);
         });
     },
@@ -400,7 +396,7 @@ export default {
       fd.append("file", file, file.name);
       this.axios
         .post(this.uploadPhotoUrl, fd)
-        .then((res) => {
+        .then(res => {
           this.$store.commit("Loading_Spinner", true);
           console.log("res of imageeeeeeeeeeeeee", res);
           if (res.data.code == "0") {
@@ -415,7 +411,7 @@ export default {
               message: this.uploadImage,
               time: moment(new Date()).format("YYYY-MM-DD hh:mm:ss"),
               msgType: 1,
-              isMe: "1",
+              isMe: "1"
             };
             // console.log("data is *************",mySend);
             let sendData = {
@@ -426,8 +422,8 @@ export default {
                 from_id: this.$store.state.customerInfo.userId,
                 to_id: this.$store.state.customerInfo.customerId,
                 customer_id: this.$store.state.customerInfo.customerId,
-                time: moment(new Date()).format("YYYY-MM-DD hh:mm:ss"),
-              },
+                time: moment(new Date()).format("YYYY-MM-DD hh:mm:ss")
+              }
             };
             this.$pomelo.send(sendData);
             // this.$store.commit("play", true);
@@ -441,14 +437,14 @@ export default {
             return this.$message.success("成功上传图片");
           }
         })
-        .catch((e) => {
+        .catch(e => {
           console.log(e);
         });
     },
     ToggleEmoji() {
       this.$store.commit("ToggleEmoji");
     },
-    dragMouseDown: function (event) {
+    dragMouseDown: function(event) {
       event.preventDefault();
       // get the mouse cursor position at startup:
       this.positions.clientX = event.clientX;
@@ -456,7 +452,7 @@ export default {
       document.onmousemove = this.elementDrag;
       document.onmouseup = this.closeDragElement;
     },
-    elementDrag: function (event) {
+    elementDrag: function(event) {
       event.preventDefault();
       this.positions.movementX = this.positions.clientX - event.clientX;
       this.positions.movementY = this.positions.clientY - event.clientY;
@@ -488,14 +484,14 @@ export default {
     focusEvent() {
       this.$store.state.showEmoji = false;
     },
-    getEXP: function () {
+    getEXP: function() {
       return this.EXPS;
     },
     SendMsg() {
       // console.log("global is *****************************", this.$Global.chatRecord);
       // console.log("btn");
       let blank =
-        this.chatmsg.split(" ").every((n) => {
+        this.chatmsg.split(" ").every(n => {
           return /^(&nbsp;)+$/.test(n); // 针对空格为&nbsp;的情况
         }) || this.chatmsg.trim().length === 0; // 普通空格的情况
 
@@ -516,7 +512,7 @@ export default {
         to_id: this.$store.state.customerInfo.customerId,
         message: this.chatmsg,
         time: moment(new Date()).format("YYYY-MM-DD hh:mm:ss"),
-        msgType: 0,
+        msgType: 0
       };
       // this.autoFocusMsg();
       this.$store.state.showEmoji = false;
@@ -529,8 +525,8 @@ export default {
           from_id: this.$store.state.customerInfo.userId,
           to_id: this.$store.state.customerInfo.customerId,
           customer_id: this.$store.state.customerInfo.customerId,
-          time: moment(new Date()).format("YYYY-MM-DD hh:mm:ss"),
-        },
+          time: moment(new Date()).format("YYYY-MM-DD hh:mm:ss")
+        }
       };
       this.$pomelo.send(sendData);
       // this.$store.commit("play", true);
@@ -567,8 +563,7 @@ export default {
     },
 
     downloadImage(imgName) {
-      let srcImg = "https://tysq666.cn/" +
-        imgName;
+      let srcImg = "https://tysq666.cn/" + imgName;
       return srcImg;
     },
 
@@ -609,7 +604,7 @@ export default {
       fd.append("file", file, file.name);
       this.axios
         .post(this.uploadPhotoUrl, fd)
-        .then((res) => {
+        .then(res => {
           // console.log("res of imageeeeeeeeeeeeee", res);
           if (res.data.code == "0") {
             this.uploadImage = res.data.data.name;
@@ -622,7 +617,7 @@ export default {
               message: this.uploadImage,
               time: moment(new Date()).format("YYYY-MM-DD hh:mm:ss"),
               msgType: 1,
-              isMe: "1",
+              isMe: "1"
             };
             // console.log("data is *************",mySend);
             let sendData = {
@@ -633,8 +628,8 @@ export default {
                 from_id: this.$store.state.customerInfo.userId,
                 to_id: this.$store.state.customerInfo.customerId,
                 customer_id: this.$store.state.customerInfo.customerId,
-                time: moment(new Date()).format("YYYY-MM-DD hh:mm:ss"),
-              },
+                time: moment(new Date()).format("YYYY-MM-DD hh:mm:ss")
+              }
             };
             this.$pomelo.send(sendData);
             // this.$store.commit("play", true);
@@ -648,12 +643,12 @@ export default {
             return this.$message.success("成功上传图片");
           }
         })
-        .catch((e) => {
+        .catch(e => {
           console.log(e);
         });
 
       // clear data in input
-    },
+    }
   },
   created() {
     // this.getChatMessage();
@@ -670,15 +665,15 @@ export default {
       this.autoFocusMsg();
     },
     ...mapState({
-      showModal: (state) => state.showModal,
+      showModal: state => state.showModal,
       // records: (state) => state.OneToOneChatRecord,
-      showEmoji: (state) => state.showEmoji,
-      customerName: (state) => state.customerInfo.name,
-    }),
+      showEmoji: state => state.showEmoji,
+      customerName: state => state.customerInfo.name
+    })
   },
   watch: {
-    watchDataChange() {},
-  },
+    watchDataChange() {}
+  }
 };
 </script>
 <style lang="scss" scoped>
