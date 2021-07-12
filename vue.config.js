@@ -39,14 +39,14 @@ module.exports = {
         }
     },
     // devServer: {
-    //   proxy:{
-    //      '/ceshi:' : {
-    //          target: 'https://tysq666.cn/conn1',
-    //          changeOrigin:true,
-    //          pathRewrite: {
-    //              '^/ceshi': ''
-    //          }
-    //      }
-    //   }
+    //     proxy: {
+    //         '/ceshi:': {
+    //             target: 'https://tysq666.cn/conn1',
+    //             changeOrigin: true,
+    //             pathRewrite: {
+    //                 '^/ceshi': ''
+    //             }
+    //         }
+    //     }
     // }
 }

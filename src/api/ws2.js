@@ -35,6 +35,9 @@ function doData(rData) {
     case "getChatMessage":
       getChatMessage(rData);
       break;
+    case "getAutoAnswer":
+      getAutoAnswer(rData);
+      break;
   }
 }
 
@@ -42,7 +45,33 @@ function transTime(times) {
   moment.suppressDeprecationWarnings = true;
   return moment(times).format('YYYY-MM-DD HH:mm:ss')
 }
+function getAutoAnswer(rData) {
+  console.log("autoreply data is  ********", rData);
+  var data = rData.data;
+  // $Global.chatRecord = [];
 
+  if (data.message == "" || data.message == null || data.message == undefined) {
+
+
+  } else {
+    let mySend = {
+      from_id: $Global.isMe,
+      to_id: store.state.customerInfo.userId.toString(),
+      message: data.message,
+      time: moment(new Date()).format("YYYY-MM-DD hh:mm:ss"),
+      msgType: 0
+    };
+    console.log("mysend data is ********", mySend)
+    $Global.autoReplyRecord.push(mySend);
+    console.log("$Global.chatRecord of getautoanswer", $Global.autoReplyRecord)
+
+    store.commit("setAutoReplyChatRecord", $Global.autoReplyRecord);
+
+    console.log("AutoReplyChatRecord of getautoanswer", store.state.AutoReplyChatRecord)
+
+    console.log("autoreplyrecord ********************* ", $Global.autoReplyRecord);
+  }
+}
 function getChatMessage(rData) {
   console.log("chatmesage data is  ********", rData);
 
@@ -61,10 +90,19 @@ function getChatMessage(rData) {
   for (let i = 0; i < data.length; i++) {
     data[i].time = transTime(data[i].time);
   }
+
+
   $Global.chatRecord = data.reverse();
+  if ($Global.autoReplyRecord.length == 0) {
 
+  } else {
+    $Global.chatRecord.push($Global.autoReplyRecord[0]);
+    // store.commit("setOneToOneChatRecord", $Global.chatRecord);
+  }
 
-  //console.log("chat record data is *************", $Global.chatRecord);
+  console.log("inside of getchatmessage ********for AutoReplyChatRecord", $Global.autoReplyRecord)
+
+  console.log("getChatMessage global record *************", $Global.chatRecord);
   store.commit("setOneToOneChatRecord", $Global.chatRecord);
   // setReadFlag(data)
 }

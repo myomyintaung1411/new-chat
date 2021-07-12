@@ -15,6 +15,7 @@ export default new Vuex.Store({
     soundOpen: true,
     audioUrl: require("../api/default.wav"),
     OneToOneChatRecord: [],
+    AutoReplyChatRecord: [],
     inRoom: {},
     customerInfo: {
       customerId: "",
@@ -60,7 +61,9 @@ export default new Vuex.Store({
     // }
     setOneToOneChatRecord(state, payload) {
       state.OneToOneChatRecord = payload;
-
+    },
+    setAutoReplyChatRecord(state, payload) {
+      state.OneToOneChatRecord = payload;
     },
     setInRoom(state, payload) {
       state.inRoom = payload;

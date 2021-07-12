@@ -2,7 +2,7 @@
   <!-- <div 
    :class="[{home: true}, {phonee: Screenwidth > 1000 ? true: false}]"
    > -->
-  <div  class="home">
+  <div class="home">
     <Header></Header>
     <Chatsection></Chatsection>
     <Loader v-if="loading"></Loader>
@@ -32,8 +32,8 @@ export default {
   data() {
     return {
       Screenwidth: "",
-      Screenheight:"",
-    }
+      Screenheight: "",
+    };
   },
   computed: {
     ...mapState({ loading: (state) => state.loading }),
@@ -58,7 +58,7 @@ export default {
       var en = this.$Global.en;
       let endata = AES.encrypt(JSON.stringify(query), en);
       console.log("endata is", endata);
-       this.axios
+      this.axios
         .post(url, { data: endata })
         .then((res) => {
           // console.log("ressssssssssssssssssss", res);
@@ -67,7 +67,9 @@ export default {
           var msg = JSON.parse(AES.decrypt(body, en));
           // this.NotLoading();
           console.log("msg decry ***", msg);
-          if (res.status == "200") {
+          if (msg.result == "false") {
+            this.$message.error(msg.reason);
+          } else {
             this.$store.state.customerInfo.customerId = msg.customer_id;
             this.$store.state.customerInfo.customerImgUrl = msg.customer_imgUrl;
             this.$store.state.customerInfo.customer_nickname =
@@ -78,28 +80,53 @@ export default {
             this.$store.state.customerInfo.nickname = msg.nickname;
             this.$store.state.customerInfo.token = msg.token;
             this.$store.state.customerInfo.userId = msg.userId;
-
             localStorage.setItem("c", AES.encrypt(JSON.stringify(msg), en));
             // this.Loading();
-           this.$pomelo.conn((err, res) => {
-            // console.log(res);
-            if (err) console.error(err);
-            if (res.code == 200) {
-              this.getChatMessage();
-              // this.Loading();
+            this.$pomelo.conn((err, res) => {
               // console.log(res);
-            }
-          });
-          } else {
-          // var errorbody = res.data;
-          this.$message.error(body.reason);
+              if (err) console.error(err);
+              if (res.code == 200) {
+                this.getChatMessage();
+                this.getAutoReplyInfo();
+                // this.Loading();
+                // console.log(res);
+              }
+            });
           }
+          // if (res.status == "200") {
+          //   this.$store.state.customerInfo.customerId = msg.customer_id;
+          //   this.$store.state.customerInfo.customerImgUrl = msg.customer_imgUrl;
+          //   this.$store.state.customerInfo.customer_nickname =
+          //     msg.customer_nickname;
+          //   this.$store.state.customerInfo.imgUrl = msg.imgUrl;
+          //   this.$store.state.customerInfo.level = msg.level;
+          //   this.$store.state.customerInfo.name = msg.name;
+          //   this.$store.state.customerInfo.nickname = msg.nickname;
+          //   this.$store.state.customerInfo.token = msg.token;
+          //   this.$store.state.customerInfo.userId = msg.userId;
+
+          //   localStorage.setItem("c", AES.encrypt(JSON.stringify(msg), en));
+          //   // this.Loading();
+          //   this.$pomelo.conn((err, res) => {
+          //     // console.log(res);
+          //     if (err) console.error(err);
+          //     if (res.code == 200) {
+          //       this.getChatMessage();
+          //       this.getAutoReplyInfo();
+          //       // this.Loading();
+          //       // console.log(res);
+          //     }
+          //   });
+          // } else {
+          //   // var errorbody = res.data;
+          //   this.$message.error(msg.reason);
+          // }
         })
         .catch((e) => {
           console.log(e.toString());
           // this.Loading();
           this.$message.error(e.toString());
-        })
+        });
     },
 
     // getClientInfo(query) {
@@ -131,7 +158,6 @@ export default {
     // },
 
     getAlreadyClientInfo(query) {
-
       console.log("inside of getAlreadyClientInfo client ******", query);
       var url =
         // "https://" +
@@ -144,7 +170,7 @@ export default {
       console.log("getAlreadyClientInfo endata is", endata);
 
       // this.NotLoading();
-        this.axios
+      this.axios
         .post(url, { data: endata })
         .then((res) => {
           console.log("ressssssssssssssssssss of created", res);
@@ -152,7 +178,37 @@ export default {
           var msg = JSON.parse(AES.decrypt(body, en));
           console.log("ressssssssssssssssssss decry", msg);
 
-          if (res.status == "200") {
+          // if (res.status == "200") {
+          //   this.$store.state.customerInfo.customerId = msg.customer_id;
+          //   this.$store.state.customerInfo.customerImgUrl = msg.customer_imgUrl;
+          //   this.$store.state.customerInfo.customer_nickname =
+          //     msg.customer_nickname;
+          //   this.$store.state.customerInfo.imgUrl = msg.imgUrl;
+          //   this.$store.state.customerInfo.level = msg.level;
+          //   this.$store.state.customerInfo.name = msg.name;
+          //   this.$store.state.customerInfo.nickname = msg.nickname;
+          //   this.$store.state.customerInfo.token = msg.token;
+          //   this.$store.state.customerInfo.userId = msg.userId;
+
+          //   localStorage.setItem("c", AES.encrypt(JSON.stringify(msg), en));
+          //   this.$pomelo.conn((err, res) => {
+          //     // console.log(res);
+          //     if (err) console.error(err);
+          //     if (res.code == 200) {
+          //       // this.Loading();
+          //       // console.log(res);
+          //       this.getChatMessage();
+          //       this.getAutoReplyInfo();
+          //     }
+          //   });
+          // } else {
+          //   // var errorbody = res.data;
+          //   // var err_msg = AES.decrypt(errorbody, en);
+          //   this.$message.error(msg.reason);
+          // }
+          if (msg.result == "false") {
+            this.$message.error(msg.reason);
+          } else {
             this.$store.state.customerInfo.customerId = msg.customer_id;
             this.$store.state.customerInfo.customerImgUrl = msg.customer_imgUrl;
             this.$store.state.customerInfo.customer_nickname =
@@ -163,28 +219,25 @@ export default {
             this.$store.state.customerInfo.nickname = msg.nickname;
             this.$store.state.customerInfo.token = msg.token;
             this.$store.state.customerInfo.userId = msg.userId;
-
             localStorage.setItem("c", AES.encrypt(JSON.stringify(msg), en));
+            // this.Loading();
             this.$pomelo.conn((err, res) => {
-            // console.log(res);
-            if (err) console.error(err);
-            if (res.code == 200) {
-              // this.Loading();
               // console.log(res);
-              this.getChatMessage();
-            }
-          });
-          } else {
-          // var errorbody = res.data;
-          // var err_msg = AES.decrypt(errorbody, en);
-          this.$message.error(body.reason);
+              if (err) console.error(err);
+              if (res.code == 200) {
+                this.getChatMessage();
+                this.getAutoReplyInfo();
+                // this.Loading();
+                // console.log(res);
+              }
+            });
           }
         })
         .catch((e) => {
           console.log(e);
           // this.Loading();
           return this.$message.error(e.toString());
-        })
+        });
     },
 
     encryptLocalStorage() {
@@ -218,7 +271,18 @@ export default {
       // console.log("senddata is ", sendData);
       pomelo.send(sendData);
     },
-
+    //get auto reply info
+    getAutoReplyInfo() {
+      var customerId = this.$store.state.customerInfo.customerId;
+      let sendData = {
+        router: "getAutoAnswer",
+        JsonData: {
+          customerId: customerId,
+        },
+      };
+      // console.log("senddata is ", sendData);
+      pomelo.send(sendData);
+    },
     alreadyLogin() {
       var param = {
         visiter_id: this.encryptLocalStorage().customer_id,
@@ -232,16 +296,31 @@ export default {
       this.getAlreadyClientInfo(param);
     },
     windowScreen() {
-     this.Screenwidth = window.screen.width
-     this.Screenheight = window.screen.height
-     console.log(this.Screenwidth,this.Screenheight)
-    }
+      this.Screenwidth = window.screen.width;
+      this.Screenheight = window.screen.height;
+      console.log(this.Screenwidth, this.Screenheight);
+    },
+    // testArray() {
+    //   let array = [
+    //     {
+    //       from_id: "340",
+    //       message: "二娃",
+    //       msgType: 0,
+    //       msg_id: 3751,
+    //       time: "2021-06-30 20:39:56",
+    //       to_id: "330",
+    //     },
+    //   ];
+    //   console.log("test array is", array[0]);
+    // },
   },
   // mounted () {
   //   this.windowScreen();
   // },
+
   created() {
-  this.windowScreen()
+    // this.testArray();
+    this.windowScreen();
     // // this.encryptLocalStorage();
     // let query;
     // if (localStorage.getItem("c") == null
@@ -321,7 +400,7 @@ export default {
   position: absolute;
   background: #f7f7f7;
   padding: 0;
-  left:0;
+  left: 0;
   top: 0;
   bottom: 0;
   right: 0;
@@ -331,7 +410,7 @@ export default {
   // position: absolute;
   // pointer-events: none;
 }
-.phonee{
+.phonee {
   max-width: 400px;
 }
 .disablePage {

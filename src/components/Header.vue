@@ -7,7 +7,7 @@
     <div class="layui-col-xs9 chat-header-title" v-if="customerNickName">
       {{ customerNickName }}
     </div>
-    <div class="layui-col-xs9 chat-header-title" v-else>客服01</div>
+    <div class="layui-col-xs9 chat-header-title" v-else>客服不在线。。。</div>
 
     <div class="layui-col-xs1 chat-header-tool" id="operatorVoice">
       <span

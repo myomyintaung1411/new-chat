@@ -29,7 +29,7 @@ export default
     //   userId: ""
     // },
     addPwStr: "$hn_ok$my_ok$hn_ok",
-    
+
     en: {
       key: 'u*ue/7Yydiw89UWEN$nie12B',
       iv: '13598702'
@@ -49,6 +49,7 @@ export default
     ],
     /**聊天记录 */
     chatRecord: [],
+    autoReplyRecord: [],
     EXPS: [
       { file: '100.gif', code: '/::)', title: '微笑', reg: /\/::\)/g },
       { file: '101.gif', code: '/::~', title: '伤心', reg: /\/::~/g },
