@@ -11,12 +11,13 @@ import "../src/assets/iconfonts/iconfont.css";
 import ws from "./api/ws2"
 import pomelo from "./api/pomelo"
 import './config'
+import "./plugins/vant";
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
 Vue.prototype.$Global = global_;
 Vue.prototype.$md5 = md5
 Vue.prototype.$ws = ws;
-Vue.prototype.$pomelo=pomelo;
+Vue.prototype.$pomelo = pomelo;
 Vue.prototype.$message = Message;
 
 new Vue({

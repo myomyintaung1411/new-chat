@@ -300,6 +300,7 @@ export default {
       this.Screenheight = window.screen.height;
       console.log(this.Screenwidth, this.Screenheight);
     },
+
     // testArray() {
     //   let array = [
     //     {
