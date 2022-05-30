@@ -216,10 +216,10 @@
             <img :src="chtImg.smile" alt draggable="false" />
           </a>
           <!-- img -->
-          <a id="images" href="javascript:">
-            <form id="picture" enctype="multipart/form-data">
-              <div class="layui-box input-but size">
-                <img :src="chtImg.image" alt draggable="false" />
+          <a id="images">
+            <form   id="picture" enctype="multipart/form-data">
+              <div class="layui-box input-but size"  >
+                <img :src="chtImg.image" alt draggable="false"  />
                 <input
                   type="file"
                   name="upload"
@@ -264,8 +264,15 @@
             <div class="layui-whisper-face">
               <ul class="layui-clear whisper-face-list">
                 <li v-for="(item, index) in getEXP()" :key="index">
-                  <img
+                  <!-- <img
                     :src="'https://tysq666.cn/emotion/' + item.file"
+                    :data="item.code"
+                    @click="emojiSelect(item.code)"
+                    :title="item.title"
+                    draggable="false"
+                  /> -->
+                  <img
+                    :src="'https://asdqwe.co/emotion/' + item.file"
                     :data="item.code"
                     @click="emojiSelect(item.code)"
                     :title="item.title"
@@ -285,6 +292,7 @@
 import { mapState } from "vuex";
 import moment from "moment";
 import { ImagePreview } from "vant";
+import {Upload} from '../api/user'
 // import html2canvas from "html2canvas";
 // import ScreenShort from "js-web-screen-shot";
 // import AES from "../api/aes";
@@ -292,11 +300,17 @@ export default {
   data() {
     return {
       chtImg: {
-        customer: "https://tysq666.cn/images/avatar.png",
-        service: "https://tysq666.cn/images/service-avatar.png",
-        file: "https://tysq666.cn/chatimg/file.png",
-        image: "https://tysq666.cn/chatimg/image.png",
-        smile: "https://tysq666.cn/chatimg/smile.png",
+        // customer: "https://tysq666.cn/images/avatar.png",
+        // service: "https://tysq666.cn/images/service-avatar.png",
+        // file: "https://tysq666.cn/chatimg/file.png",
+        // image: "https://tysq666.cn/chatimg/image.png",
+        // smile: "https://tysq666.cn/chatimg/smile.png",
+
+        customer: "https://asdqwe.co/images/avatar.png",
+        service: "https://asdqwe.co/images/service-avatar.png",
+        file: "https://asdqwe.co/chatimg/file.png",
+        image: "https://asdqwe.co/chatimg/image.png",
+        smile: "https://asdqwe.co/chatimg/smile.png",
       },
       name: "",
       mine: true,
@@ -395,7 +409,7 @@ export default {
         this.$message.warning("No file chosen");
         e.target.value = "";
 
-        return;
+        // return;
       }
       var FileExt = file.name.replace(/.+\./, "");
       if (
@@ -404,22 +418,23 @@ export default {
       ) {
         this.$message.warning("请上传后缀名为jpg、png、jpeg、svg、gif的附件！");
         e.target.value = "";
-        return false;
+        // return false;
       }
 
       if (file.size > 1024 * 1024) {
         e.preventDefault();
         this.$message.warning("File too big (> 1MB)");
         e.target.value = "";
-        return;
+        // return;
       }
       var resulturl = URL.createObjectURL(file);
       // console.log("resulturl", resulturl);
       // console.log("file name is", file.name);
       let fd = new FormData();
       fd.append("file", file, file.name);
-      this.axios
-        .post(this.uploadPhotoUrl, fd)
+      // this.axios
+      //   .post(this.uploadPhotoUrl, fd)
+      Upload(fd)
         .then((res) => {
           this.$store.commit("Loading_Spinner", true);
           console.log("res of imageeeeeeeeeeeeee", res);
@@ -592,20 +607,21 @@ export default {
     },
 
     downloadImage(imgName) {
-      let srcImg = "https://tysq666.cn/" + imgName;
+     // let srcImg = "https://tysq666.cn/" + imgName;
+      let srcImg = "https://asdqwe.co/" + imgName;
       return srcImg;
     },
 
     //upload image
     put(e) {
-      // console.log("image is *************", e.target.files);
+       console.log("image is *************", e.target.files);
       const file = e.target.files[0];
       // console.log(file);
       if (!file) {
         e.preventDefault();
         this.$message.warning("No file chosen");
         e.target.value = "";
-        return;
+        // return;
       }
       var FileExt = file.name.replace(/.+\./, "");
       if (
@@ -616,23 +632,24 @@ export default {
           "请上传后缀名为jpg、png、jpeg、svg、gif,的附件！"
         );
         e.target.value = "";
-        return false;
+        // return false;
       }
 
       if (file.size > 1024 * 1024 * 2) {
         e.preventDefault();
         this.$message.warning("File too big (> 2MB)");
         e.target.value = "";
-        return;
+        // return;
       }
 
-      var resulturl = URL.createObjectURL(file);
+     // var resulturl = URL.createObjectURL(file);
       // console.log("resulturl", resulturl);
       // console.log("file name is", file.name);
       let fd = new FormData();
       fd.append("file", file, file.name);
-      this.axios
-        .post(this.uploadPhotoUrl, fd)
+      // this.axios
+      //   .post(this.uploadPhotoUrl, fd)
+       Upload(fd)
         .then((res) => {
           // console.log("res of imageeeeeeeeeeeeee", res);
           if (res.data.code == "0") {

@@ -210,7 +210,6 @@ function getChat(rData) {
   store.commit("setOneToOneChatRecord", $Global.chatRecord);
   console.log("inside of getchat setreadflag is work or not");
   // setReadFlag(data)
-
 }
 
 function getChatForInRoom(rData) {

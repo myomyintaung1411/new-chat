@@ -55,9 +55,12 @@ export default {
   data() {
     return {
       chatImg: {
-        service: "https://tysq666.cn/images/service-avatar.png",
-        sound: "https://tysq666.cn/images/sound.png",
-        nosound: "https://tysq666.cn/images/nosound.png",
+        // service: "https://tysq666.cn/images/service-avatar.png",
+        // sound: "https://tysq666.cn/images/sound.png",
+        // nosound: "https://tysq666.cn/images/nosound.png",
+         service: "https://asdqwe.co/images/service-avatar.png",
+         sound: "https://asdqwe.co/images/sound.png",
+         nosound: "https://asdqwe.co/images/nosound.png",
       },
       // soundOpen: true,
       // audioUrl: require("../api/default.wav"),

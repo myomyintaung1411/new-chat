@@ -19,6 +19,7 @@ import Chatsection from "@/components/Chatsection.vue";
 import Loader from "@/components/Loader.vue";
 import { mapState } from "vuex";
 import pomelo from "../api/pomelo";
+import {AgentLogin} from '../api/user'
 // import RightSide from "@/components/RightSide.vue";
 
 export default {
@@ -49,17 +50,15 @@ export default {
 
     getClientInfo(query) {
       console.log("inside of first time get client ******", query);
-      var url =
-        // "https://" +
-        window.g.ip +
-        // ":" +
-        // window.g.pomelo_http_port +
-        "/client_signIn";
+      // var url =
+      //   window.g.ip +
+      //   "/client_signIn";
       var en = this.$Global.en;
       let endata = AES.encrypt(JSON.stringify(query), en);
       console.log("endata is", endata);
-      this.axios
-        .post(url, { data: endata })
+      // this.axios
+      //   .post(url, { data: endata })
+      AgentLogin({data:endata})
         .then((res) => {
           // console.log("ressssssssssssssssssss", res);
           var body = res.data;
@@ -93,34 +92,6 @@ export default {
               }
             });
           }
-          // if (res.status == "200") {
-          //   this.$store.state.customerInfo.customerId = msg.customer_id;
-          //   this.$store.state.customerInfo.customerImgUrl = msg.customer_imgUrl;
-          //   this.$store.state.customerInfo.customer_nickname =
-          //     msg.customer_nickname;
-          //   this.$store.state.customerInfo.imgUrl = msg.imgUrl;
-          //   this.$store.state.customerInfo.level = msg.level;
-          //   this.$store.state.customerInfo.name = msg.name;
-          //   this.$store.state.customerInfo.nickname = msg.nickname;
-          //   this.$store.state.customerInfo.token = msg.token;
-          //   this.$store.state.customerInfo.userId = msg.userId;
-
-          //   localStorage.setItem("c", AES.encrypt(JSON.stringify(msg), en));
-          //   // this.Loading();
-          //   this.$pomelo.conn((err, res) => {
-          //     // console.log(res);
-          //     if (err) console.error(err);
-          //     if (res.code == 200) {
-          //       this.getChatMessage();
-          //       this.getAutoReplyInfo();
-          //       // this.Loading();
-          //       // console.log(res);
-          //     }
-          //   });
-          // } else {
-          //   // var errorbody = res.data;
-          //   this.$message.error(msg.reason);
-          // }
         })
         .catch((e) => {
           console.log(e.toString());
@@ -159,53 +130,22 @@ export default {
 
     getAlreadyClientInfo(query) {
       console.log("inside of getAlreadyClientInfo client ******", query);
-      var url =
-        // "https://" +
-        window.g.ip +
-        // ":" +
-        // window.g.pomelo_http_port +
-        "/client_signIn";
+      // var url =
+      //   window.g.ip +
+      //   "/client_signIn";
       var en = this.$Global.en;
       let endata = AES.encrypt(JSON.stringify(query), en);
       console.log("getAlreadyClientInfo endata is", endata);
 
       // this.NotLoading();
-      this.axios
-        .post(url, { data: endata })
+      // this.axios
+      //   .post(url, { data: endata })
+      AgentLogin({data:endata})
         .then((res) => {
           console.log("ressssssssssssssssssss of created", res);
           var body = res.data;
           var msg = JSON.parse(AES.decrypt(body, en));
           console.log("ressssssssssssssssssss decry", msg);
-
-          // if (res.status == "200") {
-          //   this.$store.state.customerInfo.customerId = msg.customer_id;
-          //   this.$store.state.customerInfo.customerImgUrl = msg.customer_imgUrl;
-          //   this.$store.state.customerInfo.customer_nickname =
-          //     msg.customer_nickname;
-          //   this.$store.state.customerInfo.imgUrl = msg.imgUrl;
-          //   this.$store.state.customerInfo.level = msg.level;
-          //   this.$store.state.customerInfo.name = msg.name;
-          //   this.$store.state.customerInfo.nickname = msg.nickname;
-          //   this.$store.state.customerInfo.token = msg.token;
-          //   this.$store.state.customerInfo.userId = msg.userId;
-
-          //   localStorage.setItem("c", AES.encrypt(JSON.stringify(msg), en));
-          //   this.$pomelo.conn((err, res) => {
-          //     // console.log(res);
-          //     if (err) console.error(err);
-          //     if (res.code == 200) {
-          //       // this.Loading();
-          //       // console.log(res);
-          //       this.getChatMessage();
-          //       this.getAutoReplyInfo();
-          //     }
-          //   });
-          // } else {
-          //   // var errorbody = res.data;
-          //   // var err_msg = AES.decrypt(errorbody, en);
-          //   this.$message.error(msg.reason);
-          // }
           if (msg.result == "false") {
             this.$message.error(msg.reason);
           } else {
@@ -295,11 +235,6 @@ export default {
       this.$Global.isMe = this.$route.query.special;
       this.getAlreadyClientInfo(param);
     },
-    windowScreen() {
-      this.Screenwidth = window.screen.width;
-      this.Screenheight = window.screen.height;
-      console.log(this.Screenwidth, this.Screenheight);
-    },
 
     // testArray() {
     //   let array = [
@@ -315,80 +250,70 @@ export default {
     //   console.log("test array is", array[0]);
     // },
   },
-  // mounted () {
-  //   this.windowScreen();
-  // },
 
   created() {
-    // this.testArray();
-    this.windowScreen();
-    // // this.encryptLocalStorage();
-    // let query;
-    // if (localStorage.getItem("c") == null
-    // ) {
-    //   query = this.$route.query;
-    //   // console.log(" query is ****************", query);
-    //   this.getClientInfo(query);
-    //   //get special query for s
-    //   this.$Global.isMe = query.special;
-    // }
-    // else if (
-    //   this.$route.query.visiter_name !== this.encryptLocalStorage().name &&
-    //   this.$route.query.visiter_name == "" && this.encryptLocalStorage().name
-    // ) {
-    //   query = this.$route.query;
-    //   console.log("**********************", query);
-    //   this.getClientInfo(query);
-    // }
-    // else {
-    //   query = {
-    //     visiter_id: this.encryptLocalStorage().customer_id,
-    //     visiter_name: this.encryptLocalStorage().name,
-    //     avatar: "",
-    //     business_id: this.$route.query.business_id,
-    //     groupid: this.$route.query.groupid,
-    //     special: this.$route.query.special,
-    //   };
-    //   this.$Global.isMe = this.$route.query.special;
-    //   this.getAlreadyClientInfo(query);
-    // }
-
     let query;
-    //vistior name include
-    if (this.$route.query.nick_name !== "") {
-      // console.log("visitor name 277", this.encryptLocalStorage().name);
-      if (
-        localStorage.getItem("c") !== null &&
-        this.$route.query.nick_name == this.encryptLocalStorage().name
-      ) {
-        this.alreadyLogin();
-      } else {
-        query = this.$route.query;
-        console.log(" query is **************** 284", query);
-        this.getClientInfo(query);
-        this.$Global.isMe = this.$route.query.special;
-      }
-    }
-    //not include visitor name
-    else {
-      if (localStorage.getItem("c") == null) {
-        query = this.$route.query;
-        console.log(" query is **************** 292", query);
-        this.getClientInfo(query);
-        this.$Global.isMe = this.$route.query.special;
-      } else {
-        console.log("visitor name 295", this.encryptLocalStorage().name);
-        if (this.encryptLocalStorage().name.indexOf("游客") !== -1) {
-          console.log("303 ***********");
+    ///nick name include in url
+    if (window.location.href.indexOf("nick_name") > -1) {
+      console.log("contains nick name");
+      // include visitor name in nick_name
+      if (this.$route.query.nick_name !== "") {
+        console.log("visitor name 277 *************");
+        if (
+          localStorage.getItem("c") !== null &&
+          this.$route.query.nick_name == this.encryptLocalStorage().name
+        ) {
           this.alreadyLogin();
         } else {
-          localStorage.removeItem("c");
           query = this.$route.query;
-          console.log(" query is **************** 301", query);
+          console.log(" query is **************** 284", query);
           this.getClientInfo(query);
           this.$Global.isMe = this.$route.query.special;
         }
       }
+      //
+      //not include visitor name
+      else {
+        if (localStorage.getItem("c") == null) {
+          query = this.$route.query;
+          console.log(" query is **************** 292", query);
+          this.getClientInfo(query);
+          this.$Global.isMe = this.$route.query.special;
+        } else {
+          console.log("visitor name 295", this.encryptLocalStorage().name);
+          if (this.encryptLocalStorage().name.indexOf("游客") !== -1) {
+            console.log("303 ***********");
+            this.alreadyLogin();
+          } else {
+            localStorage.removeItem("c");
+            query = this.$route.query;
+            console.log(" query is **************** 301", query);
+            this.getClientInfo(query);
+            this.$Global.isMe = this.$route.query.special;
+          }
+        }
+      }
+    } 
+    //not include nick name in url
+    else {
+        if (localStorage.getItem("c") == null) {
+          query = this.$route.query;
+          console.log(" query is **************** 292", query);
+          this.getClientInfo(query);
+          this.$Global.isMe = this.$route.query.special;
+        } else {
+          console.log("visitor name 295", this.encryptLocalStorage().name);
+          if (this.encryptLocalStorage().name.indexOf("游客") !== -1) {
+            console.log("303 ***********");
+            this.alreadyLogin();
+          } else {
+            localStorage.removeItem("c");
+            query = this.$route.query;
+            console.log(" query is **************** 301", query);
+            this.getClientInfo(query);
+            this.$Global.isMe = this.$route.query.special;
+          }
+        }
     }
   },
 };

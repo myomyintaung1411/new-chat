@@ -297,7 +297,9 @@
     display: inline-block;
     vertical-align: middle;
     width: 20px;
-    height: 20px;
+    height: 30px;
+    // background-color: red;
+    // margin-top: 10px;
   }
   .size {
     min-width: 20px;
@@ -310,12 +312,13 @@
   }
   .fileinput {
     width: 20px;
-    height: 20px;
+    height: 30px;
     position: absolute;
     top: 0px;
     right: 0px;
     opacity: 0;
-    cursor: pointer;
+    background-color: green;
+    // cursor: pointer;
   }
   
   .chat-footer .send-bar .send-btn-div {

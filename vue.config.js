@@ -49,4 +49,20 @@ module.exports = {
     //         }
     //     }
     // }
+    devServer: {
+        open: true,
+        https: false,
+        hot:true,
+        proxy: {
+          '/www': {
+            //target: 'https://asdqwe.co/conn1/',
+            target: 'http://134.122.133.18:9998/',
+            ws: true,
+            changOrigin: true,
+            pathRewrite: {
+              '^/www': ''
+            }
+          }
+        },
+      }
 }
